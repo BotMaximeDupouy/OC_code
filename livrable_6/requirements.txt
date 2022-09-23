@@ -1,0 +1,12 @@
+numpy
+pandas
+seaborn
+matplotlib
+gensim
+keras
+torch
+wordcloud
+num2vec
+yellowbrick
+sklearn
+transformers
