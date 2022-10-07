@@ -34,11 +34,15 @@ class CleaningText:
         return row
 
     def stemming(row:list)->list:
-        stemmer = PorterStemmer()
+        '''take eeach word, reduce it to its word stem that affixes to suffixes
+        and prefixes, return list tokens'''
+        stemmer = nltk.stem.porter.PorterStemmer()
         row_stem = [stemmer.stem(word) for word in row]
         return row_stem
 
     def lemmatizing(row:list) -> list:
+        '''take each word, switch it to its base root mode
+        and return list tokens'''
         lemma = nltk.wordnet.WordNetLemmatizer()
         row_lemmatized = [lemma.lemmatize(word.strip()) for word in row]
         return row_lemmatized
