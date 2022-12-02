@@ -6,7 +6,7 @@ import requests
 import streamlit as st
 
 from config import HOST, PORT
-from frontend.utils import create_gauge_plot
+from utils import create_gauge_plot
 
 
 ## Load desc
@@ -36,7 +36,7 @@ payload = {
 response = requests.post(''.join([HOST, PORT,'/get_data/']),
                          json=payload
                          ).json()
-
+print(response)
 ## SITE DE BASE
 if response["error"]["status"] and str(client_id) == "0":
 
@@ -46,11 +46,11 @@ if response["error"]["status"] and str(client_id) == "0":
 
 ## ID NOT FOUND
 elif response["error"]["status"] and str(client_id) != "0":
-    st.write('<p style="font-family:sans-serif; font-size: 25px;text-align: center;">⚠️ ERREUR ⚠️</p>', unsafe_allow_html=True)
+    st.write('<p style="font-family:sans-serif; font-size: 25px;text-align: center;">⚠️ ERROR ⚠️</p>', unsafe_allow_html=True)
     st.write(" ")
     st.write(" ")
-    st.write('Cet identifiant ne correspond à __aucun identifiant de client__ dans la base de donnée 😱😱😱')
-    st.write("Exemples d'idenfiants connus :")
+    st.write('This ID does not match __any customer ID__ in the database 😱😱😱')
+    st.write("Examples of known identifiers:")
     st.write(', '.join([str(i) for i in eval(response["error"]["client_id_sample"])]))
 
 
@@ -79,6 +79,7 @@ else :
     # iterate over n MOST IMPACTFUL FEATURES
     for feature_name, data_feature in data.iloc[:number_features_to_eval,
                                                 :].iterrows():
+        print(feature_name)
         # possibility to click for feature description
         if st.sidebar.button(f'Show {feature_name} description'):
             st.sidebar.write(columns_descriptions[feature_name])
@@ -88,11 +89,11 @@ else :
         f'Select value for {feature_name}',
         min_value=float(data.loc[feature_name, 'min_value']),
         max_value=float(data.loc[feature_name, 'max_value']),
-        value=float(data.loc[feature_name, 'client_value'])
+        value=float(data.loc[feature_name, 'client_value']),
+        step=(data.loc[feature_name, 'max_value']-data.loc[feature_name, 'min_value'])/1000
         )
         # replace client_data value by feature input
         data.loc[feature_name, 'client_value'] = values
-
 
     ########################################### PREDICTION ###########################################
     prediction = requests.post(''.join([HOST, PORT,'/predict/']),
@@ -108,7 +109,6 @@ else :
     with col2:
         fig = create_gauge_plot(probalitie)
         st.plotly_chart(fig)
-
 
     ########################################### GRAPHS ###########################################
     graph_params = {
@@ -169,7 +169,7 @@ else :
                 with io.BytesIO(graph_to_display[3]) as f:
                     st.image(f, width=500)
 
-
+        print("azerty") #323894
 
 st.markdown(10 * "<br />", unsafe_allow_html=True)
 st.write(multiple_desc["contact"])

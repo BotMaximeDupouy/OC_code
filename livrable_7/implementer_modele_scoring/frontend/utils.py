@@ -1,5 +1,6 @@
-import plotly.graph_objects as go
 import numpy as np
+import plotly.graph_objects as go
+
 
 def create_gauge_plot(probabilitie):
     '''
