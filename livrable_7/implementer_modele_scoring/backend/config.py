@@ -1,0 +1,29 @@
+MODEL_PATH = "./models/"
+MODEL_TO_USE = "random_forest_final.pkl"
+#MODEL_TO_USE = "random_orest_no_finetuning.pkl"
+DATA_PATH = './data/df_complete.csv'
+PORT = '8000'
+HOST = 'http://127.0.0.1:'
+EMPTY_RESPONSE = {
+    'error': {'status' : None,
+              'client_id_sample' : None,
+              },
+    'data': None,
+    }
+COLUMNS_ORDER = [
+    "EXT_SOURCE_1",
+    "EXT_SOURCE_2",
+    "EXT_SOURCE_3",
+    "DAYS_BIRTH",
+    "AMT_CREDIT",
+    "AMT_ANNUITY",
+    "DAYS_EMPLOYED",
+    "AMT_GOODS_PRICE",
+    "DAYS_ID_PUBLISH",
+    "OWN_CAR_AGE",
+    "BUREAU_MAX_DAYS_CREDIT",
+    "BUREAU_MAX_DAYS_CREDIT_ENDDATE",
+    "BUREAU_MAX_DAYS_ENDDATE_FACT",
+    "PREV_SUM_MIN_AMT_PAYMENT",
+    "PREV_MEAN_MIN_AMT_PAYMENT",
+]
