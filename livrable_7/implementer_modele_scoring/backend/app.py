@@ -2,7 +2,7 @@ from fastapi import FastAPI, Response, BackgroundTasks
 import uvicorn
 
 from api.main import get_data_, make_prediction, make_butifuls_graphs
-from config import HOST, PORT
+from config import HOST
 from models.pydantic_models import ClientId, Data, GraphParams
 
 
@@ -31,4 +31,6 @@ def get_img(graph_params: GraphParams, background_tasks: BackgroundTasks):
     return Response(img_buf.getvalue(), headers=headers, media_type='image/png')
 
 if __name__ == '__main__':
-    uvicorn.run(app, host=HOST, port=PORT)
+    uvicorn.run(app,
+                host=HOST.split(":")[0],
+                port=HOST.split(":")[1])

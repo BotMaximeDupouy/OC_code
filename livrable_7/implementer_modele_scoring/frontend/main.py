@@ -5,9 +5,14 @@ import pandas as pd
 import requests
 import streamlit as st
 
-from config import HOST, PORT
+from config import HOST, HEROKU_HOST
 from utils import create_gauge_plot
 
+
+# Change parameter if app is on heroku
+IS_DEPLOY=False
+if IS_DEPLOY==True:
+    HOST=HEROKU_HOST
 
 ## Load desc
 f = open('./data/columns_descriptions.json')
@@ -33,10 +38,10 @@ payload = {
     }
 
 ## GET DATA
-response = requests.post(''.join([HOST, PORT,'/get_data/']),
+response = requests.post(''.join([HOST,'/get_data/']),
                          json=payload
                          ).json()
-print(response)
+
 ## SITE DE BASE
 if response["error"]["status"] and str(client_id) == "0":
 
@@ -79,7 +84,7 @@ else :
     # iterate over n MOST IMPACTFUL FEATURES
     for feature_name, data_feature in data.iloc[:number_features_to_eval,
                                                 :].iterrows():
-        print(feature_name)
+
         # possibility to click for feature description
         if st.sidebar.button(f'Show {feature_name} description'):
             st.sidebar.write(columns_descriptions[feature_name])
@@ -96,7 +101,7 @@ else :
         data.loc[feature_name, 'client_value'] = values
 
     ########################################### PREDICTION ###########################################
-    prediction = requests.post(''.join([HOST, PORT,'/predict/']),
+    prediction = requests.post(''.join([HOST,'/predict/']),
                                json=client_value.to_dict()).json()
     prediction, probalitie = prediction["prediction"], float(prediction['probabilies'])
 
@@ -124,7 +129,7 @@ else :
         st.write(f"Explanation for the {'credit acceptance' if prediction=='0' else 'refusal of credit'}.")
         st.write(multiple_desc["force_plot_desc"])
         graph_params['which_graph']='force_plot'
-        force_plot_graph = requests.get(''.join([HOST, PORT, '/']),
+        force_plot_graph = requests.get(''.join([HOST, '/']),
                                                  json=graph_params)
         with io.BytesIO(force_plot_graph.content) as f:
             st.image(f, width=1000)
@@ -134,7 +139,7 @@ else :
         st.write(multiple_desc['feature_desc'])
         # récupere le graph
         graph_params['which_graph']='features_importance_model'
-        features_importance_model = requests.get(''.join([HOST, PORT, '/']),
+        features_importance_model = requests.get(''.join([HOST, '/']),
                                                  json=graph_params)
         with io.BytesIO(features_importance_model.content) as f:
             st.image(f, width=850)
@@ -150,7 +155,7 @@ else :
         graph_to_display = []
         for ind, feature in enumerate(feature_to_boxplot):
             graph_params["feature"] = feature
-            test = requests.get(''.join([HOST, PORT, '/']),
+            test = requests.get(''.join([HOST, '/']),
                                             json=graph_params)
             graph_to_display.append(test.content)
 
@@ -169,7 +174,7 @@ else :
                 with io.BytesIO(graph_to_display[3]) as f:
                     st.image(f, width=500)
 
-        print("azerty") #323894
+
 
 st.markdown(10 * "<br />", unsafe_allow_html=True)
 st.write(multiple_desc["contact"])

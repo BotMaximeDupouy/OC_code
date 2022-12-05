@@ -41,7 +41,7 @@ def create_gauge_plot(probabilitie):
             paper_bgcolor=plot_bgcolor,
             annotations=[
                 go.layout.Annotation(
-                    text=f"<b>Probability that client is well classified :</b><br>{probabilitie}",
+                    text=f"<b>Probability that client is well classified :</b><br>{round(probabilitie, 2)}",
                     x=0.5, xanchor="center", xref="paper",
                     y=0.25, yanchor="bottom", yref="paper",
                     showarrow=False,
