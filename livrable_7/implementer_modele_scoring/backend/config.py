@@ -3,7 +3,7 @@ MODEL_TO_USE = "random_forest_final.pkl"
 #MODEL_TO_USE = "random_orest_no_finetuning.pkl"
 DATA_PATH = './data/df_complete.csv.gz'
 HOST = 'http://127.0.0.1:8000'
-HEROKU_HOST = 'scoring-credit-openclassroom-48975'
+HEROKU_HOST = 'https://scoring-credit-oc-48975.herokuapp.com'
 EMPTY_RESPONSE = {
     'error': {'status' : None,
               'client_id_sample' : None,
