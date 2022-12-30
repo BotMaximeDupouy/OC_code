@@ -112,6 +112,7 @@ else :
         title = f'<p style="font-family:sans-serif; font-size: 28px;text-align: center;">{to_display}</p>'
         st.markdown(title, unsafe_allow_html=True)
     with col2:
+        print(probalitie)
         fig = create_gauge_plot(probalitie)
         st.plotly_chart(fig)
 
